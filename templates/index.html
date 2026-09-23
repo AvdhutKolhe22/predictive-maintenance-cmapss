@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+Predictive Maintenance
+</title>
+
+<script
+src="https://cdn.jsdelivr.net/npm/chart.js"
+></script>
+
+<link
+rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}"
+>
+
+</head>
+
+
+<body>
+
+<div class="layout">
+
+
+<aside class="sidebar">
+
+<div class="brand">
+
+<div class="brand-mark">
+PM
+</div>
+
+<div>
+<strong>
+Predictive Maintenance
+</strong>
+
+<span>
+NASA C-MAPSS FD001
+</span>
+</div>
+
+</div>
+
+
+<div class="nav-label">
+PLATFORM
+</div>
+
+
+<div class="nav active">
+Engine intelligence
+</div>
+
+<div class="nav">
+Fleet monitoring
+</div>
+
+<div class="nav">
+Maintenance decisions
+</div>
+
+
+<div class="sidebar-bottom">
+
+<div class="online">
+
+<i></i>
+
+<div>
+<strong>
+System online
+</strong>
+
+<span>
+V2 + V3 inference
+</span>
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+
+<main class="main">
+
+
+<header class="header">
+
+<div>
+
+<div class="eyebrow">
+INDUSTRIAL INTELLIGENCE
+</div>
+
+<h1>
+Engine health
+<span>dashboard</span>
+</h1>
+
+<p>
+Predictive maintenance intelligence based on
+remaining useful life and failure-risk inference.
+</p>
+
+</div>
+
+
+<div class="system">
+<i></i>
+SYSTEM ONLINE
+</div>
+
+</header>
+
+
+<section class="selector card">
+
+<div>
+
+<div class="label">
+ENGINE ANALYSIS
+</div>
+
+<h2>
+Select an engine
+</h2>
+
+<p>
+Analyse the latest 30-cycle operating window.
+</p>
+
+</div>
+
+
+<div class="controls">
+
+<select id="engine"></select>
+
+<button id="analyse">
+Analyse
+<span>→</span>
+</button>
+
+</div>
+
+</section>
+
+
+<div
+id="loading"
+class="loading hidden"
+>
+Running model inference...
+</div>
+
+
+<div
+id="error"
+class="error hidden"
+></div>
+
+
+<section
+id="dashboard"
+class="hidden"
+>
+
+
+<div
+id="statusCard"
+class="status card"
+>
+
+<div>
+
+<div class="label">
+CURRENT ASSESSMENT
+</div>
+
+<h2 id="status">
+—
+</h2>
+
+<p id="recommendation">
+—
+</p>
+
+</div>
+
+
+<div class="engine">
+
+<span>
+ENGINE
+</span>
+
+<strong id="engineId">
+—
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="metrics">
+
+
+<div class="metric card">
+
+<div class="label">
+REMAINING USEFUL LIFE
+</div>
+
+<strong>
+<span id="rul">
+—
+</span>
+
+<small>
+cycles
+</small>
+</strong>
+
+<p>
+V2 RUL estimation
+</p>
+
+</div>
+
+
+<div class="metric card">
+
+<div class="label">
+FAILURE PROBABILITY
+</div>
+
+<strong>
+<span id="failure">
+—
+</span>
+
+<small>
+%
+</small>
+</strong>
+
+<div class="risk">
+<i id="risk"></i>
+</div>
+
+<p>
+V3 failure-risk model
+</p>
+
+</div>
+
+
+<div class="metric card">
+
+<div class="label">
+LATEST CYCLE
+</div>
+
+<strong id="cycle">
+—
+</strong>
+
+<p id="window">
+—
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="charts">
+
+
+<section class="chart card">
+
+<div class="chart-head">
+
+<div>
+
+<div class="label">
+DEGRADATION
+</div>
+
+<h3>
+Remaining useful life trajectory
+</h3>
+
+</div>
+
+<b>
+V2
+</b>
+
+</div>
+
+<div class="canvas">
+<canvas id="rulChart"></canvas>
+</div>
+
+</section>
+
+
+<section class="chart card">
+
+<div class="chart-head">
+
+<div>
+
+<div class="label">
+FAILURE RISK
+</div>
+
+<h3>
+Failure probability trajectory
+</h3>
+
+</div>
+
+<b>
+V3
+</b>
+
+</div>
+
+<div class="canvas">
+<canvas id="failureChart"></canvas>
+</div>
+
+</section>
+
+
+<section class="chart card">
+
+<div class="chart-head">
+
+<div>
+
+<div class="label">
+MAINTENANCE STATE
+</div>
+
+<h3>
+Health status timeline
+</h3>
+
+</div>
+
+</div>
+
+<div class="canvas short">
+<canvas id="statusChart"></canvas>
+</div>
+
+</section>
+
+
+<section class="decision card">
+
+<div class="label">
+DECISION ENGINE
+</div>
+
+<h3>
+Maintenance recommendation
+</h3>
+
+<div
+id="decision"
+class="decision-box"
+>
+
+<strong id="decisionStatus">
+—
+</strong>
+
+<p id="decisionText">
+—
+</p>
+
+</div>
+
+
+<div class="details">
+
+<div>
+<span>Observed cycles</span>
+<strong id="observed">—</strong>
+</div>
+
+<div>
+<span>Input window</span>
+<strong id="inputWindow">—</strong>
+</div>
+
+<div>
+<span>Models</span>
+<strong>V2 + V3</strong>
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+</section>
+
+
+<footer>
+NASA C-MAPSS FD001 · CNN-BiLSTM predictive-maintenance system
+</footer>
+
+
+</main>
+
+</div>
+
+
+<script
+src="{{ url_for('static', filename='js/app.js') }}"
+></script>
+
+</body>
+
+</html>
