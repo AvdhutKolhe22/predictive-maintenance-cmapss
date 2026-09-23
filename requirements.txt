@@ -5,3 +5,4 @@ scipy
 joblib
 torch
 streamlit
+flask
